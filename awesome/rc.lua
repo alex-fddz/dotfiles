@@ -49,16 +49,16 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "gtk/theme.lua")
 beautiful.border_width = 2
 beautiful.useless_gap = 2
-beautiful.wallpaper = "/home/alex/Pictures/Wallpapers/od_waves.jpg"
-beautiful.systray_icon_spacing = 2
-beautiful.tasklist_fg_normal = "#AAA"
+beautiful.wallpaper = "/home/alex/Pictures/Wallpapers/od_current.png"
+beautiful.systray_icon_spacing = 3
+beautiful.tasklist_fg_normal = "#888"
 beautiful.tasklist_fg_focus = beautiful.wibar_fg
 beautiful.tasklist_font_focus = beautiful.font
 beautiful.bg_minimize = beautiful.wibar_bg
-beautiful.fg_minimize = "#AAA"
+beautiful.fg_minimize = "#888"
 -- beautiful.tasklist_shape_minimized = beautiful.rounded_rect_shape -- ?
 -- beautiful.tasklist_shape_border_color_minimized = beautiful.wibar_bg
 
