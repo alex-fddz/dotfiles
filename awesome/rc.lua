@@ -334,6 +334,17 @@ globalkeys = gears.table.join(
               end,
               {description = "move client to next", group = "tag"}),
 
+    -- Wibar visibility toggle
+    awful.key({ modkey, "Shift"   }, "b",
+        function ()
+            -- for s in screen do
+            local s = awful.screen.focused()
+            s.mywibox.visible = not s.mywibox.visible
+            -- end
+        end,
+        {description = "toggle wibar visibility", group = "layout"}
+    ),
+
     -- Focus by Index
     awful.key({ modkey,           }, "Tab",
         function ()
