@@ -12,11 +12,12 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+
+-- local menubar = require("menubar") -- > use rofi
 
 -- Load Debian menu entries
 local debian = require("debian.menu")
@@ -133,7 +134,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+-- menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- Keyboard map indicator and switcher
@@ -206,7 +207,7 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
+    -- s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
@@ -264,7 +265,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
             s.mytaglist,
-            s.mypromptbox,
+            -- s.mypromptbox,
             s.mytasklist,
         },
         mytextclock, -- Middle widget
@@ -294,7 +295,7 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
---    awful.key({ modkey,           }, "a",   awful.tag.viewprev,
+--    awful.key({ modkey,           }, "a",   awful.tag.viewprev, -- super+q conflict?
 --              {description = "view previous", group = "tag"}),
 --    awful.key({ modkey,           }, "s",  awful.tag.viewnext,
 --              {description = "view next", group = "tag"}),
@@ -384,8 +385,10 @@ globalkeys = gears.table.join(
         end,
         {description = "focus by direction", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    --          {description = "show main menu", group = "awesome"}),
+    awful.key({ modkey,           }, "w", function () awful.spawn("rofi -show window") end,
+              {description = "rofi: show windows", group = "launcher"}),
 
     -- Layout manipulation
     awful.key({ modkey,           }, "m",
@@ -493,22 +496,31 @@ globalkeys = gears.table.join(
               {description = "select previous", group = "layout"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey },            "r",     function () awful.spawn("rofi -show run") end,
+              {description = "rofi: show run prompt", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+    -- awful.key({ modkey }, "x",
+    --           function ()
+    --               awful.prompt.run {
+    --                 prompt       = "Run Lua code: ",
+    --                 textbox      = awful.screen.focused().mypromptbox.widget,
+    --                 exe_callback = awful.util.eval,
+    --                 history_path = awful.util.get_cache_dir() .. "/history_eval"
+    --               }
+    --           end,
+    --           {description = "lua execute prompt", group = "awesome"}),
+
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+    -- awful.key({ modkey,         }, "p", function() menubar.show() end,
+    --           {description = "show the menubar", group = "launcher"})
+    -- App Launcher
+    awful.key({ modkey,         }, "p", function() awful.spawn("rofi -show drun") end,
+              {description = "rofi: show app launcher (drun)", group = "launcher"}),
+    -- Rofi Calc
+    awful.key({ altkey,         }, "space", function() awful.spawn([[rofi -show calc -modi calc -no-history -calc-command "echo -n '{result}' | xclip -selection clipboard"]]) end,
+              {description = "rofi: show calc", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
