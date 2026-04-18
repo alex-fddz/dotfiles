@@ -1,0 +1,41 @@
+configuration{
+    modi: ["drun", "calc", "window", "run"];
+    combi-modi: ["drun", "run", "window"];
+
+    matching: "normal";
+    sort: true;
+    // sorting-method: "fzf"; // rofi v1.7.4+
+    disable-history: false;
+
+    show-icons: true;
+    drun-display-format: "{icon} {name}";
+    sidebar-mode: false;
+    location: 0;
+
+    display-drun: "/";
+    display-run: ">";
+    display-window: "#";
+    display-calc: "=";
+    display-combi: "*";
+
+    // adding vim keybindings
+    kb-row-up: "Up,Alt+k";
+    kb-row-left: "Alt+h";
+    kb-row-right: "Alt+l";
+    kb-row-down: "Down,Alt+j";
+
+    kb-accept-entry: "Return,KP_Enter";
+
+    // fixing up
+    kb-remove-to-eol: "";
+    kb-move-char-back: "Left";
+    kb-remove-char-back: "BackSpace";
+    kb-move-char-forward: "Right";
+    kb-mode-complete: "Alt+o";
+
+    kb-row-tab: "";
+    kb-mode-next: "Tab";
+}
+
+@theme "onedark"
+

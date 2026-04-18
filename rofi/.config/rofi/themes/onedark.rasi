@@ -1,0 +1,22 @@
+* {	
+	background-color: #1e222a;
+  text-color: #abb2bf;
+	width: 30%;
+	lines: 12;
+}
+
+window {
+  border: 2px;
+	border-color: #61afef;
+  padding: 5px;
+}
+
+prompt {
+  text-color: #676c76;
+  margin: 0 3px;
+}
+
+element-text selected {
+  text-color: #dbe4f3;
+}
+
