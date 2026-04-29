@@ -1,6 +1,5 @@
 configuration{
-    modi: ["drun", "calc", "window", "run"];
-    combi-modi: ["drun", "run", "window"];
+    modi: "drun,window,run,calc,emoji";
 
     matching: "normal";
     sort: true;
@@ -13,9 +12,10 @@ configuration{
     location: 0;
 
     display-drun: "/";
-    display-run: ">";
     display-window: "#";
+    display-run: ">";
     display-calc: "=";
+    display-emoji: "😀";
     display-combi: "*";
 
     // adding vim keybindings

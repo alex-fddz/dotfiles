@@ -518,6 +518,9 @@ globalkeys = gears.table.join(
     -- App Launcher
     awful.key({ modkey,         }, "p", function() awful.spawn("rofi -show drun") end,
               {description = "rofi: show app launcher (drun)", group = "launcher"}),
+    -- Rofi Emoji -> combi
+    awful.key({ modkey,         }, "/", function() awful.spawn("rofi -show emoji -modi emoji,combi") end,
+              {description = "rofi: show app launcher (drun)", group = "launcher"}),
     -- Rofi Calc
     awful.key({ altkey,         }, "space", function() awful.spawn([[rofi -show calc -modi calc -no-history -calc-command "echo -n '{result}' | xclip -selection clipboard"]]) end,
               {description = "rofi: show calc", group = "launcher"})
