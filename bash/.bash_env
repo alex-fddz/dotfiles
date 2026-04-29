@@ -1,0 +1,5 @@
+# Shell environment
+export EDITOR=vim
+export VISUAL=nvim
+export MANPAGER='nvim +Man!'
+
