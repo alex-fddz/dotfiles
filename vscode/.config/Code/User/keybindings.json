@@ -1,0 +1,34 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "\\ e",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "editorTextFocus && vim.active && sideBarVisible"
+    },
+    {
+        "key": "\\ e",
+        "command": "workbench.view.explorer",
+        "when": "editorTextFocus && vim.active && !sideBarVisible"
+    },
+    {
+        "key": "\\ e",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "sideBarFocus && vim.active"
+    },
+    {
+        "key": "\\ f",
+        "command": "workbench.view.search",
+        "when": "vim.active"
+    },
+    {
+        "key": "shift+escape",
+        "command": "notifications.clearAll",
+    },
+    {
+        "key": "alt+f9",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "if [ -f ./build.sh ]; then ./build.sh; fi\n"
+        }
+    }
+]
