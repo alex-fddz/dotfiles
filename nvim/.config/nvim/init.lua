@@ -73,7 +73,7 @@ ts_configs.setup({
 
 -- Nvim-tree: side panel / file explorer
 require("nvim-tree").setup()
-vim.keymap.set({'n','i','v'}, '<C-b>', ':NvimTreeToggle<CR>')
+vim.keymap.set({'n','i','v'}, '<leader>e', ':NvimTreeToggle<CR>')
 
 -- Lualine: status line
 require("lualine").setup({ options = { theme = "onedark" } })
