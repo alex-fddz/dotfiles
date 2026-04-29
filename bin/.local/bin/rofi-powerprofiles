@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Power Profiles menu for rofi
+
+# Get current governor (unique, first value)
+current=$(powerprofilesctl get)
+governor=$(cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor | sort -u | head -n1)
+
+# Capitalize first letter
+current_cap="$(tr '[:lower:]' '[:upper:]' <<< ${current:0:1})${current:1}"
+
+# Prompt
+choice=$(printf "Performance\nBalanced\nPower Saver" | rofi -dmenu -p "Power Profile is $current_cap ($governor)")
+
+case "$choice" in
+    Performance)
+        powerprofilesctl set performance
+        sudo cpupower frequency-set -g performance
+        notify-send "Rofi Power Profiles" "Performance"
+        ;;
+    Balanced)
+        powerprofilesctl set balanced
+        sudo cpupower frequency-set -g schedutil
+        notify-send "Rofi Power Profiles" "Balanced"
+        ;;
+    "Power Saver")
+        powerprofilesctl set power-saver
+        sudo cpupower frequency-set -g powersave
+        notify-send "Rofi Power Profiles" "Power Saver"
+        ;;
+esac
+
