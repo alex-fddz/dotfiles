@@ -1,0 +1,21 @@
+[general]
+import = ["~/.config/alacritty/themes/one_dark.toml"]
+
+[window]
+padding = { x = 7, y = 7 }
+
+[font]
+normal.family = "Inconsolata Nerd Font"
+size = 13.0
+
+[mouse]
+bindings = [
+  { mouse = "Right", action = "Copy" },
+  { mouse = "Right", mods = "Control", action = "Paste" },
+]
+
+[keyboard]
+bindings = [
+  { key = "N", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
+
