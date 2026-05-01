@@ -8,7 +8,7 @@ Clone into `~/.dotfiles`.
 Each module dir mirrors `~/`:
 
 ```
-tree -La 4 -I ".git|README.*"
+tree -La 5 -I ".git|README.*"
 ```
 
 ## Stow
@@ -19,8 +19,13 @@ From repo root:
 stow -v <pkg> # or */ for all
 ```
 
-## Stowless
+### Exceptions
+
+* Firefox: use `firefox/stow.sh`.
+
+### Fallback
 
 ```
 ln -s "$PWD/vim/.vimrc" ~/.vimrc
 ```
+
