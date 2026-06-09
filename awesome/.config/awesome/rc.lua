@@ -88,10 +88,10 @@ awful.layout.layouts = {
     -- awful.layout.suit.tile.top,
     -- awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.magnifier,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.spiral,
-    -- awful.layout.suit.spiral.dwindle,
     awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
@@ -279,6 +279,29 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 -- }}}
 
+-- {{{ Geometry-based monitor position detection
+local function screen_in_direction(from, dir)
+    local best = nil
+    local best_dist = math.huge
+
+    for scr in screen do
+        if scr ~= from then
+            local dx = scr.geometry.x - from.geometry.x
+
+            if (dir == "right" and dx > 0) or (dir == "left" and dx < 0) then
+                local dist = math.abs(dx)
+                if dist < best_dist then
+                    best_dist = dist
+                    best = scr
+                end
+            end
+        end
+    end
+
+    return best
+end
+-- }}}
+
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end)
@@ -439,10 +462,32 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "l", function () awful.client.swap.bydirection("right") end,
               {description = "swap by direction", group = "client"}),
 
-    awful.key({ modkey,           }, ".", function () awful.screen.focus_relative( 1) end,
-              {description = "focus the next screen (>)", group = "screen"}),
-    awful.key({ modkey,           }, ",", function () awful.screen.focus_relative(-1) end,
-              {description = "focus the previous screen (<)", group = "screen"}),
+    -- Replace index based screen positioning with geometry-based positioning:
+    -- awful.key({ modkey,           }, ".", function () awful.screen.focus_relative( 1) end,
+    --           {description = "focus the next screen (>)", group = "screen"}),
+    -- awful.key({ modkey,           }, ",", function () awful.screen.focus_relative(-1) end,
+    --           {description = "focus the previous screen (<)", group = "screen"}),
+    awful.key({ modkey }, ".", function ()
+        local s = awful.screen.focused()
+        local target = screen_in_direction(s, "right")
+        if target then
+            awful.screen.focus(target)
+        end
+    end, {
+        description = "focus screen to the right (>)",
+        group = "screen"
+    }),
+    awful.key({ modkey }, ",", function ()
+        local s = awful.screen.focused()
+        local target = screen_in_direction(s, "left")
+        if target then
+            awful.screen.focus(target)
+        end
+    end, {
+        description = "focus screen to the left (<)",
+        group = "screen"
+    }),
+
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
     awful.key({ altkey,           }, "Tab",
@@ -547,10 +592,41 @@ clientkeys = gears.table.join(
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey,           }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
-    awful.key({ modkey, "Shift"   }, ".",      function (c) c:move_to_screen( 1)             end,
-              {description = "move to screen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, ",",      function (c) c:move_to_screen(-1)             end,
-              {description = "move to screen", group = "client"}),
+
+    -- Replace index based screen positioning with geometry-based positioning:
+    -- awful.key({ modkey, "Shift"   }, ".",      function (c) c:move_to_screen( 1)             end,
+    --           {description = "move to screen", group = "client"}),
+    -- awful.key({ modkey, "Shift"   }, ",",      function (c) c:move_to_screen(-1)             end,
+    --           {description = "move to screen", group = "client"}),
+    awful.key({ modkey, "Shift" }, ".", function ()
+        local c = client.focus
+        if not c then return end
+
+        local target = screen_in_direction(c.screen, "right")
+        if target then
+            c:move_to_screen(target)
+            client.focus = c
+            c:raise()
+        end
+    end, {
+        description = "move client to right screen (>)",
+        group = "client"
+    }),
+    awful.key({ modkey, "Shift" }, ",", function ()
+        local c = client.focus
+        if not c then return end
+
+        local target = screen_in_direction(c.screen, "left")
+        if target then
+            c:move_to_screen(target)
+            client.focus = c
+            c:raise()
+        end
+    end, {
+        description = "move client to left screen (<)",
+        group = "client"
+    }),
+
     awful.key({ modkey, "Control" }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
 
